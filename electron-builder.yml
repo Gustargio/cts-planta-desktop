@@ -1,20 +1,21 @@
-
 appId: com.berni.controltotalsola.planta
 productName: Control Total Sola - Planta
+directories:
+  output: dist
 files:
   - "src/**/*"
   - "package.json"
-extraMetadata:
-  main: "src/main.js"
+asar: true
 
 win:
   target:
     - nsis
     - portable
-  # No requestedExecutionLevel to avoid UAC (defaults to asInvoker)
 
 nsis:
   oneClick: true
   perMachine: false
   allowElevation: false
   allowToChangeInstallationDirectory: false
+
+publish: never
