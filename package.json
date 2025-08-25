@@ -1,0 +1,19 @@
+{
+  "name": "cts-planta-desktop",
+  "version": "1.0.0",
+  "description": "Control Total Sola - Modo Planta (Windows)",
+  "main": "src/main.js",
+  "author": "Tu Nombre/Empresa",
+  "license": "MIT",
+  "scripts": {
+    "dev": "electron .",
+    "dist": "electron-builder --win"
+  },
+  "dependencies": {
+    "firebase": "^10.12.4"
+  },
+  "devDependencies": {
+    "electron": "^30.0.6",
+    "electron-builder": "^24.13.3"
+  }
+}

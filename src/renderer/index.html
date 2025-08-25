@@ -1,0 +1,45 @@
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Control Total Sola - Planta</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://*.firebaseio.com https://*.googleapis.com https://*.gstatic.com 'unsafe-inline' 'unsafe-eval'; img-src 'self' data:;">
+  <style>
+    body { font-family: system-ui, Arial, sans-serif; margin: 16px; }
+    .row { display: flex; gap: 12px; margin-bottom: 12px; }
+    .banner { flex: 1; color: #fff; padding: 12px; border-radius: 6px; cursor: pointer; }
+    .b-planta { background: #388E3C; }
+    .b-saliendo { background: #FB8C00; }
+    .b-obra { background: #1E88E5; }
+    .b-descarga { background: #8E24AA; }
+    .list { margin-top: 16px; }
+    .item { display: flex; align-items: baseline; gap: 8px; padding: 8px 0; border-bottom: 1px solid #eee; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    .d-planta { background: #388E3C; }
+    .d-saliendo { background: #FB8C00; }
+    .d-obra { background: #1E88E5; }
+    .d-descarga { background: #8E24AA; }
+    button.ack { margin-left: auto; }
+    .muted { color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <h2>Modo PLANTA</h2>
+
+  <div class="row">
+    <div class="banner b-planta" id="sumPlanta">En Planta: 0</div>
+    <div class="banner b-saliendo" id="sumSaliendo">Saliendo: 0</div>
+    <div class="banner b-obra" id="sumObra">En Obra: 0</div>
+    <div class="banner b-descarga" id="sumDescarga">Descarga: 0</div>
+  </div>
+
+  <div class="list" id="list"></div>
+
+  <!-- Firebase (compat para RTDB) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

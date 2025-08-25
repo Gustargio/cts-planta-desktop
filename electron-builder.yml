@@ -1,0 +1,20 @@
+
+appId: com.berni.controltotalsola.planta
+productName: Control Total Sola - Planta
+files:
+  - "src/**/*"
+  - "package.json"
+extraMetadata:
+  main: "src/main.js"
+
+win:
+  target:
+    - nsis
+    - portable
+  # No requestedExecutionLevel to avoid UAC (defaults to asInvoker)
+
+nsis:
+  oneClick: true
+  perMachine: false
+  allowElevation: false
+  allowToChangeInstallationDirectory: false
