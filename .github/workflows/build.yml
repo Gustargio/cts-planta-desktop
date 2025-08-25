@@ -7,16 +7,18 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    # Fijamos imagen para evitar cambios de entorno por ahora
+    runs-on: windows-2022
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -24,8 +26,11 @@ jobs:
       - name: Build installer
         run: npm run dist
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+      - name: Upload artifacts (installer + portable)
+        uses: actions/upload-artifact@v4
         with:
           name: cts-planta-win
-          path: dist/*
+          path: |
+            dist/**
+          if-no-files-found: error
+          retention-days: 14
