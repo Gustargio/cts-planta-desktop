@@ -7,7 +7,6 @@ on:
 
 jobs:
   build:
-    # Fijamos imagen para evitar cambios de entorno por ahora
     runs-on: windows-2022
 
     steps:
@@ -18,12 +17,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
+          # IMPORTANTE: no usar cache sin lockfile
+          # cache: 'npm'  <-- QUITADO
 
-     - name: Install dependencies
+      - name: Install dependencies
         run: npm install
-
-
 
       - name: Build installer
         run: npm run dist
