@@ -3,21 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <title>Control Total Sola - Planta</title>
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; img-src 'self' data: https:;">
+  <!-- CSP: permitimos CSS inline y módulos de Firebase -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' https: data: 'unsafe-inline' 'unsafe-eval';
+                 img-src 'self' data: https:;
+                 style-src 'self' 'unsafe-inline';
+                 script-src 'self' https: 'unsafe-eval' 'unsafe-inline'">
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
   <div class="root">
     <header class="header">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Logo-placeholder.png" class="logo" alt="logo"/>
+      <!-- podés cambiar por tu logo local si querés -->
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Logo-placeholder.png"
+           class="logo" alt="logo"/>
       <h1>Modo PLANTA</h1>
     </header>
 
     <section class="summary">
-      <div id="summaryEnPlanta" class="bar bar-green" tabindex="0">En Planta: 0</div>
-      <div id="summarySaliendo" class="bar bar-orange" tabindex="0">Saliendo: 0</div>
-      <div id="summaryEnObra" class="bar bar-blue" tabindex="0">En Obra: 0</div>
-      <div id="summaryDescarga" class="bar bar-purple" tabindex="0">Descarga: 0</div>
+      <button id="summaryEnPlanta"  class="bar bar-green"  type="button">En Planta: 0</button>
+      <button id="summarySaliendo"  class="bar bar-orange" type="button">Saliendo: 0</button>
+      <button id="summaryEnObra"    class="bar bar-blue"   type="button">En Obra: 0</button>
+      <button id="summaryDescarga"  class="bar bar-purple" type="button">Descarga: 0</button>
     </section>
 
     <h2 class="title">Mixers</h2>
@@ -27,28 +34,37 @@
 
   <!-- Firebase Web SDK (CDN) -->
   <script type="module">
+    console.log('[BOOT] index.html cargado');
+
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js";
     import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-database.js";
 
-    // PONÉ TU CONFIG ACÁ (desde Firebase Console → Project Settings → Web app)
+    // TODO: PEGAR TU CONFIG ACA (desde Firebase Console → Project settings → Your apps → Web App)
     const firebaseConfig = {
-      apiKey: "TU_API_KEY",
-      authDomain: "TU_PROJECT.firebaseapp.com",
-      databaseURL: "https://TU_PROJECT-default-rtdb.firebaseio.com",
-      projectId: "TU_PROJECT",
-      storageBucket: "TU_PROJECT.appspot.com",
-      messagingSenderId: "XXXXXXXXXXXX",
-      appId: "1:XXXXXXXXXXXX:web:YYYYYYYYYYYY"
+      apiKey: "AIzaSyCbDDxXXZRPEK98gGZxzcuwaui82qpWNi8",
+      authDomain: "control-total-sola.firebaseapp.com",
+      databaseURL: "https://control-total-sola-default-rtdb.firebaseio.com",
+      projectId: "control-total-sola",
+      storageBucket: "control-total-sola.firebasestorage.app",
+      messagingSenderId: "687583642316",
+      appId: "1:687583642316:web:73a6bdb1118c5670d9f869"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+    try {
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+      console.log('[BOOT] Firebase inicializado OK');
 
-    window.firebaseRTDB = {
-      ref: (path) => ref(db, path),
-      onValue: onValue,
-      update: update
-    };
+      // Exponer solo lo que usa renderer.js
+      window.firebaseRTDB = {
+        ref: (path) => ref(db, path),
+        onValue: onValue,
+        update: update
+      };
+    } catch (e) {
+      console.error('[BOOT] Error al iniciar Firebase:', e);
+      alert('No se pudo iniciar Firebase. Revisá la consola (Ctrl+Shift+I).');
+    }
   </script>
 
   <script type="module" src="./renderer.js"></script>
