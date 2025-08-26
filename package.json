@@ -1,13 +1,13 @@
 {
   "name": "cts-planta-desktop",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Control Total Sola - Modo Planta (notificaciones Windows + menú + ACK)",
   "main": "src/main.js",
   "author": "Sergio",
   "license": "MIT",
   "scripts": {
     "dev": "electron .",
-    "dist": "electron-builder --win"
+    "dist": "electron-builder --win --publish=never"
   },
   "devDependencies": {
     "electron": "30.5.1",
