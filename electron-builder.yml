@@ -6,12 +6,10 @@ files:
   - "src/**/*"
   - "package.json"
 asar: true
-
 win:
   target:
     - nsis
     - portable
-
 nsis:
   oneClick: true
   perMachine: false
