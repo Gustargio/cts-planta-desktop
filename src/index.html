@@ -1,1 +1,61 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Control Total Sola - Planta</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; img-src 'self' data: https:;">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="root">
+    <header class="header">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Logo-placeholder.png" class="logo" alt="logo"/>
+      <h1>Modo PLANTA</h1>
+    </header>
 
+    <section class="summary">
+      <div id="summaryEnPlanta" class="bar bar-green" tabindex="0">En Planta: 0</div>
+      <div id="summarySaliendo" class="bar bar-orange" tabindex="0">Saliendo: 0</div>
+      <div id="summaryEnObra" class="bar bar-blue" tabindex="0">En Obra: 0</div>
+      <div id="summaryDescarga" class="bar bar-purple" tabindex="0">Descarga: 0</div>
+    </section>
+
+    <h2 class="title">Mixers</h2>
+    <div id="list" class="list"></div>
+    <p class="hint">Tip: hacé click en las barras para ver los internos por estado.</p>
+  </div>
+
+  <!-- Firebase Web SDK (CDN, sin bundler) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js";
+    import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-database.js";
+
+    // ------------- PEGÁ ACÁ TU CONFIG de Firebase Web -------------
+    // Entra a Firebase console → Project settings → "Your apps" → Web
+    // Copiá el objeto firebaseConfig (apiKey, authDomain, databaseURL, etc.)
+    const firebaseConfig = {
+      // TODO: reemplazar con TU config
+      apiKey: "TU_API_KEY",
+      authDomain: "TU_PROJECT.firebaseapp.com",
+      databaseURL: "https://TU_PROJECT-default-rtdb.firebaseio.com",
+      projectId: "TU_PROJECT",
+      storageBucket: "TU_PROJECT.appspot.com",
+      messagingSenderId: "XXXXXXXXXXXX",
+      appId: "1:XXXXXXXXXXXX:web:YYYYYYYYYYYY"
+    };
+    // ---------------------------------------------------------------
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // Exponer funciones básicas para renderer.js
+    window.firebaseRTDB = {
+      ref: (path) => ref(db, path),
+      onValue: onValue,
+      update: update
+    };
+  </script>
+
+  <script type="module" src="./renderer.js"></script>
+</body>
+</html>
