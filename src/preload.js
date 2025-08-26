@@ -5,7 +5,6 @@ contextBridge.exposeInMainWorld('planta', {
     try {
       await ipcRenderer.invoke('show-ack-noti', { title, body });
     } catch (e) {
-      // fallback si algo falla
       new Notification(title || 'Cambio', { body: body || '' });
     }
   }
