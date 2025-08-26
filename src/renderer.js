@@ -1,3 +1,5 @@
+console.log('[RENDERER] cargando…');
+
 const colorKey = (s) => ({
   'EN_PLANTA': 'en_planta',
   'SALIENDO':  'saliendo',
@@ -20,21 +22,26 @@ const agoString = (ms) => {
   return `hace ${Math.floor(diff/86400)} d`;
 };
 
-const { ref, onValue, update } = window.firebaseRTDB;
+const listEl   = document.getElementById('list');
+const tvPlanta = document.getElementById('summaryEnPlanta');
+const tvSal    = document.getElementById('summarySaliendo');
+const tvObra   = document.getElementById('summaryEnObra');
+const tvDesc   = document.getElementById('summaryDescarga');
 
-const listEl = document.getElementById('list');
-const tvPlanta  = document.getElementById('summaryEnPlanta');
-const tvSal     = document.getElementById('summarySaliendo');
-const tvObra    = document.getElementById('summaryEnObra');
-const tvDesc    = document.getElementById('summaryDescarga');
+if (!window.firebaseRTDB) {
+  console.error('[RENDERER] firebaseRTDB no está disponible. ¿Pegaste firebaseConfig en index.html?');
+  alert('Firebase no inicializado. Revisá el index.html y la consola (Ctrl+Shift+I).');
+}
+
+const { ref, onValue, update } = window.firebaseRTDB || {};
 
 const lastById = new Map();
 let ultimaLista = [];
 
 [tvPlanta, tvSal, tvObra, tvDesc].forEach((el) => {
-  el.addEventListener('click', () => {
+  el?.addEventListener('click', () => {
     const estado = (el.id === 'summaryEnPlanta') ? 'EN_PLANTA'
-                : (el.id === 'summaryEnSaliendo' || el.id === 'summarySaliendo') ? 'SALIENDO'
+                : (el.id === 'summarySaliendo') ? 'SALIENDO'
                 : (el.id === 'summaryEnObra') ? 'EN_OBRA'
                 : 'DESCARGA';
     const lista = ultimaLista.filter(x => x.status === estado).sort((a,b)=>a.id-b.id);
@@ -48,6 +55,7 @@ async function sendAck(item) {
     await update(ref(`mixers/${item.id}`), { lastAckStatus: item.status, lastAckAt: Date.now() });
     window.planta?.notifyAck?.('OK enviado', `Mixer ${item.id}: ${labelFor(item.status)}`);
   } catch (e) {
+    console.error('[RENDERER] Error OK:', e);
     alert('Error al enviar OK: ' + (e?.message || e));
   }
 }
@@ -81,7 +89,6 @@ function render(list) {
 
     const ackBtn = document.createElement('button');
     ackBtn.textContent = 'Dar OK';
-    ackBtn.style.marginLeft = 'auto';
     ackBtn.onclick = () => sendAck(item);
 
     row.appendChild(dot);
@@ -97,15 +104,21 @@ function render(list) {
   });
 }
 
-onValue(ref('mixers'), (snap) => {
-  const out = [];
-  snap.forEach(ch => {
-    const id = ch.child('id').val() ?? parseInt(ch.key, 10);
-    const status = ch.child('status').val() || 'EN_PLANTA';
-    const updatedAt = ch.child('updatedAt').val() || 0;
-    if (id != null && !Number.isNaN(id)) out.push({ id, status, updatedAt });
+if (ref && onValue) {
+  console.log('[RENDERER] Suscribiendo a /mixers …');
+  onValue(ref('mixers'), (snap) => {
+    const out = [];
+    snap.forEach(ch => {
+      const id = ch.child('id').val() ?? parseInt(ch.key, 10);
+      const status = ch.child('status').val() || 'EN_PLANTA';
+      const updatedAt = ch.child('updatedAt').val() || 0;
+      if (id != null && !Number.isNaN(id)) out.push({ id, status, updatedAt });
+    });
+    render(out);
+  }, (err) => {
+    console.error('[RENDERER] Error de datos:', err);
+    alert('Error de datos: ' + (err?.message || err));
   });
-  render(out);
-}, (err) => {
-  alert('Error de datos: ' + (err?.message || err));
-});
+} else {
+  console.warn('[RENDERER] RTDB API no disponible todavía.');
+}
