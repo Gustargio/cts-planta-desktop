@@ -25,16 +25,13 @@
     <p class="hint">Tip: hacé click en las barras para ver los internos por estado.</p>
   </div>
 
-  <!-- Firebase Web SDK (CDN, sin bundler) -->
+  <!-- Firebase Web SDK (CDN) -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-app.js";
     import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/10.12.1/firebase-database.js";
 
-    // ------------- PEGÁ ACÁ TU CONFIG de Firebase Web -------------
-    // Entra a Firebase console → Project settings → "Your apps" → Web
-    // Copiá el objeto firebaseConfig (apiKey, authDomain, databaseURL, etc.)
+    // PONÉ TU CONFIG ACÁ (desde Firebase Console → Project Settings → Web app)
     const firebaseConfig = {
-      // TODO: reemplazar con TU config
       apiKey: "TU_API_KEY",
       authDomain: "TU_PROJECT.firebaseapp.com",
       databaseURL: "https://TU_PROJECT-default-rtdb.firebaseio.com",
@@ -43,12 +40,10 @@
       messagingSenderId: "XXXXXXXXXXXX",
       appId: "1:XXXXXXXXXXXX:web:YYYYYYYYYYYY"
     };
-    // ---------------------------------------------------------------
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
 
-    // Exponer funciones básicas para renderer.js
     window.firebaseRTDB = {
       ref: (path) => ref(db, path),
       onValue: onValue,
