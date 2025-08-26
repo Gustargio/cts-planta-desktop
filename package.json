@@ -1,7 +1,7 @@
 {
   "name": "cts-planta-desktop",
-  "version": "1.0.2",
-  "description": "Control Total Sola - Modo Planta (notificaciones Windows + menú + toast ACK)",
+  "version": "1.0.3",
+  "description": "Control Total Sola - Modo Planta (notificaciones Windows + menú + ACK)",
   "main": "src/main.js",
   "author": "Sergio",
   "license": "MIT",
