@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "electron .",
-    "dist": "electron-builder --win --publish=never"
+    "dist": "electron-builder --win"
   },
   "devDependencies": {
     "electron": "30.5.1",
