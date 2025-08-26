@@ -17,7 +17,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          # cache: npm   <-- desactivado para evitar error de lockfile
+          # cache: npm   # (evitamos error por falta de package-lock.json)
 
       - name: Install dependencies
         run: npm install
