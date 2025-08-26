@@ -26,7 +26,6 @@ app.whenReady().then(() => {
   });
 });
 
-// Canal para mostrar notificación nativa desde el renderer
 ipcMain.handle('show-ack-noti', (_evt, payload) => {
   const { title, body } = payload || {};
   const n = new Notification({ title: title || 'Cambio de estado', body: body || '' });
