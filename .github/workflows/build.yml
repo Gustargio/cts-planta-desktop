@@ -17,14 +17,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          # IMPORTANTE: no usar cache sin lockfile
-          # cache: 'npm'  <-- QUITADO
+          cache: npm
 
       - name: Install dependencies
         run: npm install
 
       - name: Build installer
-        run: npm run dist -- --publish=never
+        run: npm run dist
 
       - name: Upload artifacts (installer + portable)
         uses: actions/upload-artifact@v4
